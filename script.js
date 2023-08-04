@@ -2,20 +2,20 @@ let library = [
     {
         title: "Temp Title",
         author: "Temp Author",
-        pages: "100",
-        read: false
+        pages: "999",
+        read: "Yes"
     },
     {
         title: "Temp Title",
         author: "Temp Author",
-        pages: "100",
-        read: false
+        pages: "999",
+        read: "No"
     },
     {
         title: "Temp Title",
         author: "Temp Author",
-        pages: "100",
-        read: false
+        pages: "999",
+        read: "Yes"
     }
 ];
 
@@ -24,18 +24,20 @@ const formContainer = document.querySelector('#formContainer');
 const form = document.querySelector('#addBookForm');
 const libraryContent = document.querySelector("#libraryContent");
 
-let titleInput = document.querySelector("#title");
-let authorInput = document.querySelector("#author");
-let pagesInput = document.querySelector("#pages");
+const titleInput = document.querySelector("#title");
+const authorInput = document.querySelector("#author");
+const pagesInput = document.querySelector("#pages");
 let read = document.querySelector('input[name="read"]:checked')
 
 const submitButton = document.querySelector("#submitButton");
 const resetButton = document.querySelector("#resetButton");
 const toggleButtons = document.querySelectorAll(".toggleButtons");
-//TODO read T/F NOT WORKING
-//consolidate button listeners
+
 submitButton.addEventListener('click', ()=>{
     addBook();
+    toggleHidden();
+    resetForm();
+    validateForm();
 });
 
 toggleButtons.forEach((button) => {
@@ -57,7 +59,11 @@ titleInput.addEventListener('keyup', ()=>{
 authorInput.addEventListener('keyup', ()=>{
     validateForm();
 });
+
 pagesInput.addEventListener('keyup', ()=>{
+    validateForm();
+});
+pagesInput.addEventListener('change', ()=>{ //have to add this listener for arrow buttons on number entry field.
     validateForm();
 });
 
@@ -71,11 +77,12 @@ function validateForm(){
 }
 
 function getReadInput(){
+    read = document.querySelector('input[name="read"]:checked')
     if(read.value == 'Yes'){
-        return true;
+        return "Yes";
     }
     else{
-        return false;
+        return "No";
     }
 }
 
@@ -94,13 +101,15 @@ function addBook(){
 
     let newBook = new Book(title,author,pages,read);
     library.push(newBook);
+
     console.log(newBook);
+
     updateDisplay();
 }
 
 function updateDisplay(){
     libraryContent.innerHTML = "";
-    library.forEach(function(item){
+    library.forEach(function(item, index){
         let newRow = document.createElement('tr');
 
         let title = document.createElement('th');
@@ -117,9 +126,48 @@ function updateDisplay(){
         newRow.appendChild(pages);
         newRow.appendChild(read);
 
+        newRow.appendChild(createToggleCell(index));
+        newRow.appendChild(createRemoveCell(index));
+
         libraryContent.appendChild(newRow);
     });
 }
+
+function createRemoveCell(index){
+    let rmButtonRow = document.createElement('td');
+
+    let rmButton = document.createElement('button');
+    rmButton.classList.add('button',"remove-button");
+    rmButton.textContent = "Remove";
+    rmButton.addEventListener('click',()=>{
+        library.splice(index,1);
+        updateDisplay();
+    });
+
+    rmButtonRow.appendChild(rmButton);
+    return rmButtonRow;
+}
+
+function createToggleCell(index){
+    let toggleButtonRow = document.createElement('td');
+
+    let toggleButton = document.createElement('button');
+    toggleButton.classList.add('button', "toggle-button");
+    toggleButton.textContent = "Toggle";
+    toggleButton.addEventListener('click',()=>{
+        if(library[index].read == 'Yes'){
+            library[index].read = 'No';
+        }
+        else{
+            library[index].read = 'Yes';
+        }
+        updateDisplay();
+    });
+    
+    toggleButtonRow.appendChild(toggleButton);
+    return toggleButtonRow;
+}
+
 
 function toggleHidden(){
     libraryContainer.classList.toggle('hidden');

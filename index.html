@@ -22,10 +22,12 @@
                         <th>Author</th>
                         <th>Pages</th>
                         <th>Read?</th>
+                        <th>Toggle Status</th>
+                        <th>Remove</th>
                     </tr>
                 </thead>
                 <tbody id="libraryContent">
-    
+                    
                 </tbody>
             </table>
         </div>
@@ -62,29 +64,29 @@
                 <fieldset>
                     <legend>Have you finished the Book?</legend>
                     <div class="form-item">
-                        <label for="Yes">Yes</label>
+                        <label for="yes">Yes</label>
                         <input
                           type="radio"
-                          id="Yes"
+                          id="yes"
                           name="read"
                           value="Yes"
+                          checked
                           required
                         /> 
                     </div>
                     <div class="form-item">
-                        <label for="No">No</label>
+                        <label for="no">No</label>
                         <input
                         type="radio"
-                        id="No"
+                        id="no"
                         name="read"
-                        value="No"
-                        checked
+                        value="no"
                         required
                         /> 
                     </div>
                 </fieldset>
                 <div class="buttons">
-                    <button disabled type="button" id="submitButton" class="button toggleButtons">Submit</button>
+                    <button disabled type="button" id="submitButton" class="button">Submit</button>
                     <button type="button" id="cancelButton" class="button toggleButtons">Cancel</button>
                     <button type="button" id="resetButton" class="button">Reset</button>
                 </div>
