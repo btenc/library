@@ -6,10 +6,34 @@
     <link rel="stylesheet" href="normalize.css">
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
-    <title>Library</title>
+    <title>Functional Library</title>
 </head>
 <body>
-    <h1>Temp</h1>
+    <div class="container">
+        <h1 class="header">Simple Library</h1>
+        <div class="libraryContainer">
+            <div class="button toggleButtons">
+                <button id="newBook">NEW BOOK</button>
+            </div>
+            <table class="libraryTable">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Pages</th>
+                        <th>Read?</th>
+                    </tr>
+                </thead>
+                <tbody id="libraryContent">
+    
+                </tbody>
+            </table>
+        </div>
+        <div class="formContainer hidden">
+            <div class="test">TEST TEXT</div>
+        </div>
+    </div>
+
     
 </body>
 </html>
