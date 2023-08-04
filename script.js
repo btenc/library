@@ -7,23 +7,11 @@ function Book(title, author, pages, read) {
 
 let library = [
   {
-    title: "Temp Title",
-    author: "Temp Author",
-    pages: "999",
+    title: "Temporary Book",
+    author: "William TenCate",
+    pages: "404",
     read: "Yes",
-  },
-  {
-    title: "Temp Title",
-    author: "Temp Author",
-    pages: "999",
-    read: "No",
-  },
-  {
-    title: "Temp Title",
-    author: "Temp Author",
-    pages: "999",
-    read: "Yes",
-  },
+  }
 ];
 
 const libraryContainer = document.querySelector("#libraryContainer");
@@ -108,9 +96,6 @@ function addBook() {
 
   let newBook = new Book(title, author, pages, read);
   library.push(newBook);
-
-  console.log(newBook);
-
   updateDisplay();
 }
 
@@ -125,14 +110,11 @@ function updateDisplay() {
     author.textContent = item.author;
     let pages = document.createElement("td");
     pages.textContent = item.pages;
-    let read = document.createElement("td");
-    read.textContent = item.read;
-
+    
     newRow.appendChild(title);
     newRow.appendChild(author);
     newRow.appendChild(pages);
-    newRow.appendChild(read);
-
+ 
     newRow.appendChild(createToggleCell(index));
     newRow.appendChild(createRemoveCell(index));
 
@@ -160,12 +142,14 @@ function createToggleCell(index) {
 
   let toggleButton = document.createElement("button");
   toggleButton.classList.add("button", "toggle-button");
-  toggleButton.textContent = "Toggle";
+  toggleButton.textContent = library[index].read;
   toggleButton.addEventListener("click", () => {
     if (library[index].read == "Yes") {
       library[index].read = "No";
+      toggleButton.textContent = "No";
     } else {
       library[index].read = "Yes";
+      toggleButton.textContent = "Yes";
     }
     updateDisplay();
   });
