@@ -1,18 +1,46 @@
-function Book(title, author, pages, read) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.read = read;
+class Book{
+  constructor(title,author,pages,read){
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read;
+  }
 }
 
-let library = [
-  {
-    title: "Temporary Book",
-    author: "William TenCate",
-    pages: "404",
-    read: "Yes",
+class Library{
+  constructor(){
+    this.library = [
+      {
+        title: "Temporary Book",
+        author: "William TenCate",
+        pages: "404",
+        read: "Yes",
+      }
+    ];
   }
-];
+
+  getBook(index){
+    return this.library[index];
+  }
+
+  addBook(newBook){
+    this.library.push(newBook);
+  }
+
+  removeBook(index){
+    this.library.splice(index, 1);
+  }
+
+  changeReadStatus(index, str){
+    this.library[index].read = str;
+  }
+
+  getReadStatus(index){
+    return this.library[index].read;
+  }
+}
+
+const library = new Library();
 
 const libraryContainer = document.querySelector("#libraryContainer");
 const formContainer = document.querySelector("#formContainer");
@@ -29,7 +57,8 @@ const resetButton = document.querySelector("#resetButton");
 const toggleButtons = document.querySelectorAll(".toggleButtons");
 
 submitButton.addEventListener("click", () => {
-  addBook();
+  library.addBook(getBookFromInputs());
+  updateDisplay();
   toggleHidden();
   resetForm();
   validateForm();
@@ -88,20 +117,19 @@ function getReadInput() {
   }
 }
 
-function addBook() {
+function getBookFromInputs() {
   let title = titleInput.value;
   let author = authorInput.value;
   let pages = pagesInput.value;
   let read = getReadInput();
 
-  let newBook = new Book(title, author, pages, read);
-  library.push(newBook);
-  updateDisplay();
+  let newBook = new Book(title, author, pages, read); 
+  return newBook;
 }
 
 function updateDisplay() {
   libraryContent.innerHTML = "";
-  library.forEach(function (item, index) {
+  library.library.forEach(function (item, index) {
     let newRow = document.createElement("tr");
 
     let title = document.createElement("th");
@@ -129,7 +157,7 @@ function createRemoveCell(index) {
   rmButton.classList.add("button", "remove-button");
   rmButton.textContent = "Remove";
   rmButton.addEventListener("click", () => {
-    library.splice(index, 1);
+    library.removeBook(index);
     updateDisplay();
   });
 
@@ -142,13 +170,13 @@ function createToggleCell(index) {
 
   let toggleButton = document.createElement("button");
   toggleButton.classList.add("button", "toggle-button");
-  toggleButton.textContent = library[index].read;
+  toggleButton.textContent = library.getReadStatus(index);
   toggleButton.addEventListener("click", () => {
-    if (library[index].read == "Yes") {
-      library[index].read = "No";
+    if (library.getReadStatus(index) == "Yes") {
+      library.changeReadStatus(index,"No");
       toggleButton.textContent = "No";
     } else {
-      library[index].read = "Yes";
+      library.changeReadStatus(index,"Yes");
       toggleButton.textContent = "Yes";
     }
     updateDisplay();
